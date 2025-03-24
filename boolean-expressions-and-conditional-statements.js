@@ -26,20 +26,34 @@ Paste the following code into your editor:
 
 const readline = require('readline-sync');
 
-const hasTorch = true;
-const hasMap = false;
+// Inventory
+const inventory = {
+  torch: true,
+  map: false,
+  sword: true,
+  compass: false
+}; 
 
-console.log("You see two paths: one leads to the mountains, the other to the village.");
-const choice = readline.question("Do you go to the 'mountains' or the 'village'?");
+// Introduction
+console.log("You wake up in a dark forest. Two paths lie ahead: one to the mountains, one to the village.");
+const choice = readline.question("Do you go to the 'mountains' or the 'village'? ");
 
-if (choice === "mountains" && hasTorch) {
+// Mountain Arc
+if (choice === "mountains" && inventory.torch) {
   console.log("You safely navigate through the dark mountains.");
-} else if (choice === "mountains" && !hasTorch) {
-  console.log("It's too dark to proceed. You decide to turn back.");
-} else if (choice === "village" || hasMap) {
-  console.log("You find your way to the village.");
-} else {
-  console.log("You get lost and wander aimlessly.");
+  if (readline.question("You find a cave. Do you 'enter' or 'continue' on the path? ") === "enter") {
+    console.log(inventory.sword ? "A wild beast appears! You defeat it and find treasure." : "A wild beast attacks! You barely escape.");
+  } else {
+    console.log("You continue and find a safe resting spot.");
+  }
+
+  // Village Arc
+} else if (choice === "village") {
+  console.log("You arrive at the village marketplace.");
+  const marketChoice = readline.question("Visit the 'blacksmith' or the 'merchant'? ");
+  
+  console.log(marketChoice === "blacksmith" ? "The blacksmith sharpens your sword!" : 
+              inventory.compass ? "The merchant gives you a map, improving navigation." : "The merchant sells you a compass.");
 }
 
 /* 
